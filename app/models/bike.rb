@@ -91,7 +91,7 @@ class Bike < ActiveRecord::Base
 
   before_save :set_calculated_attributes
 
-  include PgSearch
+  include PgSearch::Model
   pg_search_scope :pg_search, against: {
                                 serial_number: "A",
                                 cached_data: "B",
