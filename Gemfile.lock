@@ -471,6 +471,10 @@ GEM
     rails-assets-sifter (0.5.3)
     rails-assets-tether (1.1.1)
     rails-assets-waypoints (3.1.1)
+    rails-controller-testing (1.0.1)
+      actionpack (~> 5.x)
+      actionview (~> 5.x)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -772,6 +776,7 @@ DEPENDENCIES
   rails-assets-selectize (~> 0.12.1)!
   rails-assets-tether (~> 1.1.0)!
   rails-assets-waypoints (~> 3.1.1)!
+  rails-controller-testing
   rails-i18n
   rb-fsevent (~> 0.10.3)
   redcarpet
