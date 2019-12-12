@@ -1,17 +1,17 @@
 GIT
-  remote: https://github.com/jmromer/swagger-ui_rails.git
-  revision: 0377d8ecd0714901351a6bfc68491d255ad86093
-  branch: bike_index_0.1.7
-  specs:
-    swagger-ui_rails (0.1.7)
-
-GIT
-  remote: https://github.com/leoduquesnel/carrierwave_backgrounder.git
+  remote: https://github.com/bikeindex/carrierwave_backgrounder.git
   revision: 128b22a4c8de0db762ca5f005225c87a944c93e1
   specs:
     carrierwave_backgrounder (0.4.2)
       carrierwave (>= 0.5, < 2.0)
       mime-types (~> 2.99)
+
+GIT
+  remote: https://github.com/bikeindex/swagger-ui_rails.git
+  revision: 0377d8ecd0714901351a6bfc68491d255ad86093
+  branch: bike_index_0.1.7
+  specs:
+    swagger-ui_rails (0.1.7)
 
 GIT
   remote: https://github.com/pramod-sharma/faraday-request_response_logger.git
