@@ -103,7 +103,7 @@ gem "sprockets", "4.0.0"
 gem "sprockets-rails"
 gem "therubyracer"
 gem "uglifier"
-gem "webpacker", "~> 4.x"
+gem "webpacker"
 
 # Show performance metrics
 gem "flamegraph", require: false
