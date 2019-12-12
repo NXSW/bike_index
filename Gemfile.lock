@@ -6,8 +6,8 @@ GIT
     swagger-ui_rails (0.1.7)
 
 GIT
-  remote: https://github.com/lardawge/carrierwave_backgrounder.git
-  revision: 460394b0e2c0cf0c192be9c1a60bcf9dfb1f9e4d
+  remote: https://github.com/leoduquesnel/carrierwave_backgrounder.git
+  revision: 128b22a4c8de0db762ca5f005225c87a944c93e1
   specs:
     carrierwave_backgrounder (0.4.2)
       carrierwave (>= 0.5, < 2.0)
