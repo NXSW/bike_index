@@ -179,7 +179,7 @@ RSpec.describe SessionsController, type: :controller do
           expect(user).to receive(:authenticate).and_return(true)
           request.env["HTTP_REFERER"] = user_home_url
           request.env["HTTP_CF_CONNECTING_IP"] = "66.66.66.66"
-          post :create, session: { password: "would be correct" }
+          post :create, params: { session: { password: "would be correct" } }
           expect(cookies.signed[:auth][1]).to eq(user.auth_token)
           expect(response).to redirect_to user_home_url
           expect(session[:partner]).to be_nil
@@ -195,7 +195,7 @@ RSpec.describe SessionsController, type: :controller do
             expect(user).to receive(:authenticate).and_return(true)
             request.env["HTTP_REFERER"] = user_home_url
             request.env["HTTP_CF_CONNECTING_IP"] = "66.66.66.66"
-            post :create, session: { password: "would be correct" }
+            post :create, params: { session: { password: "would be correct" } }
             expect(cookies.signed[:auth][1]).to eq(user.auth_token)
             expect(response).to redirect_to "https://new.bikehub.com/account"
             expect(session[:partner]).to be_nil
@@ -210,7 +210,7 @@ RSpec.describe SessionsController, type: :controller do
           it "authenticates and redirects to admin" do
             expect(user).to receive(:authenticate).and_return(true)
             request.env["HTTP_REFERER"] = user_home_url
-            post :create, session: { password: "would be correct" }
+            post :create, params: { session: { password: "would be correct" } }
             expect(cookies.signed[:auth][1]).to eq(user.auth_token)
             expect(response).to redirect_to admin_root_url
           end
@@ -219,7 +219,7 @@ RSpec.describe SessionsController, type: :controller do
         it "redirects to discourse_authentication url if it's a valid oauth url" do
           expect(user).to receive(:authenticate).and_return(true)
           session[:discourse_redirect] = "sso=foo&sig=bar"
-          post :create, session: { hmmm: "yeah" }
+          post :create, params: { session: { hmmm: "yeah" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(response).to redirect_to discourse_authentication_url
         end
@@ -227,7 +227,7 @@ RSpec.describe SessionsController, type: :controller do
         it "redirects to return_to if it's a valid oauth url" do
           expect(user).to receive(:authenticate).and_return(true)
           session[:return_to] = oauth_authorization_url(cool_thing: true)
-          post :create, session: { stuff: "lololol" }
+          post :create, params: { session: { stuff: "lololol" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(session[:return_to]).to be_nil
           expect(response).to redirect_to oauth_authorization_url(cool_thing: true)
@@ -236,7 +236,7 @@ RSpec.describe SessionsController, type: :controller do
         it "redirects to facebook.com/bikeindex" do
           expect(user).to receive(:authenticate).and_return(true)
           session[:return_to] = "https://facebook.com/bikeindex"
-          post :create, session: { thing: "asdfasdf" }
+          post :create, params: { session: { thing: "asdfasdf" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(session[:return_to]).to be_nil
           expect(response).to redirect_to "https://facebook.com/bikeindex"
@@ -245,7 +245,7 @@ RSpec.describe SessionsController, type: :controller do
         it "does not redirect to a random facebook page" do
           expect(user).to receive(:authenticate).and_return(true)
           session[:return_to] = "https://facebook.com/bikeindex-mean-place"
-          post :create, session: { thing: "asdfasdf" }
+          post :create, params: { session: { thing: "asdfasdf" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(session[:return_to]).to be_nil
           expect(response).to redirect_to user_home_url
@@ -254,7 +254,7 @@ RSpec.describe SessionsController, type: :controller do
         it "doesn't redirect and clears the session if not a valid oauth url" do
           expect(user).to receive(:authenticate).and_return(true)
           session[:return_to] = "http://testhost.com/bad_place?f=#{oauth_authorization_url(cool_thing: true)}"
-          post :create, session: { thing: "asdfasdf" }
+          post :create, params: { session: { thing: "asdfasdf" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(session[:return_to]).to be_nil
           expect(response).to redirect_to user_home_url
@@ -263,7 +263,7 @@ RSpec.describe SessionsController, type: :controller do
 
       it "does not authenticate the user when user authentication fails" do
         expect(user).to receive(:authenticate).and_return(false)
-        post :create, session: { password: "something incorrect" }
+        post :create, params: { session: { password: "something incorrect" } }
         expect(session[:user_id]).to be_nil
         expect(response).to render_template("new")
         expect(response).to render_template("layouts/application")
@@ -276,7 +276,7 @@ RSpec.describe SessionsController, type: :controller do
         it "signs in" do
           expect(user).to receive(:authenticate).and_return(true)
           request.env["HTTP_REFERER"] = user_home_url
-          post :create, session: { password: "would be correct" }
+          post :create, params: { session: { password: "would be correct" } }
           expect(cookies.signed[:auth][1]).to eq(user.auth_token)
           expect(session[:render_donation_request]).to be_falsey
           expect(response).to redirect_to organization_root_path(organization_id: organization.to_param)
@@ -286,7 +286,7 @@ RSpec.describe SessionsController, type: :controller do
           it "sets flash of render_donation_request" do
             expect(user).to receive(:authenticate).and_return(true)
             request.env["HTTP_REFERER"] = user_home_url
-            post :create, session: { password: "would be correct" }
+            post :create, params: { session: { password: "would be correct" } }
             expect(cookies.signed[:auth][1]).to eq(user.auth_token)
             expect(session[:render_donation_request]).to eq "law_enforcement"
             expect(response).to redirect_to bikes_path(stolenness: "all")
@@ -299,7 +299,7 @@ RSpec.describe SessionsController, type: :controller do
       let(:user) { FactoryBot.create(:user) }
       it "logs in, sends to please_confirm_email" do
         expect(user.authenticate("testthisthing7$")).to be_truthy
-        post :create, session: { email: user.email, password: "testthisthing7$" }
+        post :create, params: { session: { email: user.email, password: "testthisthing7$" } }
         expect(User.from_auth(cookies.signed[:auth])).to eq(user)
         expect(response).to redirect_to(please_confirm_email_users_path)
       end
@@ -307,7 +307,7 @@ RSpec.describe SessionsController, type: :controller do
         let!(:user_email) { FactoryBot.create(:user_email, user: user) }
         it "logs in, sends to please_confirm_email" do
           expect(user_email.confirmed).to be_truthy
-          post :create, session: { email: user.email, password: "testthisthing7$" }
+          post :create, params: { session: { email: user.email, password: "testthisthing7$" } }
           expect(User.from_auth(cookies.signed[:auth])).to eq(user)
           expect(response).to redirect_to(please_confirm_email_users_path)
         end
@@ -315,7 +315,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     it "does not log in the user when the user is not found" do
-      post :create, session: { email: "notThere@example.com" }
+      post :create, params: { session: { email: "notThere@example.com" } }
       expect(cookies.signed[:auth]).to be_nil
       expect(response).to render_template(:new)
       expect(response).to render_template("layouts/application")
